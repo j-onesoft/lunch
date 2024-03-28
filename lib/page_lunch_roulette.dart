@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:roulette/roulette.dart';
 import 'package:flutter/material.dart';
 
-import 'arrow.dart';
+import 'controls/arrow.dart';
 
 class MyRoulette extends StatelessWidget {
   const MyRoulette({
