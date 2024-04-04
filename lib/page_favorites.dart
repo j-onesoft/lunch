@@ -108,7 +108,7 @@ class _AddRowsAsynchronouslyScreenState extends State<FavoritesPage> {
 
     try {
       final response = await http
-          .get(Uri.parse('http://lrserver.azurewebsites.net/api/Restaurants'));
+          .get(Uri.parse('https://lrserver.azurewebsites.net/api/Restaurants'));
 
       if (response.statusCode == 200) {
         Iterable list = json.decode(response.body);
