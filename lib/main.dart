@@ -1,18 +1,39 @@
+import 'dart:math';
 
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 import 'page_favorites.dart';
 import 'page_home.dart';
 import 'page_lunch_roulette.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  static final colors = <Color>[
+    Colors.red.withAlpha(50),
+    Colors.green.withAlpha(30),
+    Colors.blue.withAlpha(70),
+    Colors.yellow.withAlpha(90),
+    Colors.amber.withAlpha(50),
+    Colors.indigo.withAlpha(70),
+  ];
+
+  static var texts = <String>[
+    "이화수 1호점",
+    "이화수 2호점",
+    "이화수 3호점",
+    "이화수 4호점",
+    "이화수 5호점",
+    "이화수 6호점",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +52,30 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  var history = <WordPair>[];
+  var current = MyApp.texts[0];
+  var history = <String>[];
+  static final _random = Random();
 
   GlobalKey? historyListKey;
+
+ 
+  final List<PlutoRow> rows = [];
+  /// columnGroups that can group columns can be omitted.
+
 
   void getNext() {
     history.insert(0, current);
     var animatedList = historyListKey?.currentState as AnimatedListState?;
     animatedList?.insertItem(0);
-    current = WordPair.random();
+    int r = _random.nextInt(MyApp.texts.length);
+    current = MyApp.texts[r];
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  var favorites = <String>[];
 
-  void toggleFavorite([WordPair? pair]) {
-    pair = pair ?? current;
+  void toggleFavorite(String pair) {
+    pair = current;
     if (favorites.contains(pair)) {
       favorites.remove(pair);
     } else {
@@ -56,7 +84,7 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeFavorite(WordPair pair) {
+  void removeFavorite(String pair) {
     favorites.remove(pair);
     notifyListeners();
   }
@@ -152,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                         label: Text('Favorites'),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(Icons.check),
+                        icon: Icon(Icons.pie_chart),
                         label: Text('Lunch Roulette 2'),
                       ),
                     ],
@@ -173,4 +201,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
